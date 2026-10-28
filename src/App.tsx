@@ -1,6 +1,7 @@
 import { useTransactions } from './hooks/useTransactions';
 import { formatTransactionType, formatCurrency } from './utils/format';
 import { calculateSummary } from './utils/summary' 
+import { TransactionForm } from './components/TransactionForm';
 
 function App() {
   const { transactions, isLoading, error } = useTransactions();
@@ -33,6 +34,7 @@ function App() {
             </article>
             </div>
         </section>
+         <TransactionForm onAddTransaction={(transaction) => console.log(transaction)} />
         <section aria-labelledby="transactions-title">
           <h2 id='transactions-title'>Movimientos</h2>
           <ul className='transaction__list'>
