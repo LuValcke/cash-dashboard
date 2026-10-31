@@ -7,3 +7,5 @@ export type Transaction = {
     description: string; // ISO 8601: 'YYYY-MM-DD'.
     type: TransactionType;
 };
+
+export type TransactionFilter = 'all' | TransactionType;
