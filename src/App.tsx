@@ -34,7 +34,10 @@ function App() {
             </article>
             </div>
         </section>
-         <TransactionForm onAddTransaction={addTransaction} />
+        <section aria-labelledby='transaction-form'>
+          <h2 id='transaction-form'>Nuevo movimiento</h2>
+          <TransactionForm onAddTransaction={addTransaction} />
+        </section>
         <section aria-labelledby="transactions-title">
           <h2 id='transactions-title'>Movimientos</h2>
           <ul className='transaction__list'>
@@ -45,9 +48,11 @@ function App() {
                     <p className='transaction__description'>{transaction.description}</p>
                     <p className='transaction__type'>{formatTransactionType(transaction.type)}</p>
                   </div>
-                  <p className={`transaction__amount transaction__amount--${transaction.type}`}>{formatCurrency(transaction.amount)}</p>
+                  <div className='transaction__actions'>
+                    <p className={`transaction__amount transaction__amount--${transaction.type}`}>{formatCurrency(transaction.amount)}</p>
+                    <button onClick={()=>removeTransaction(transaction.id)} aria-label={`Borrar ${transaction.description}`} className='transaction__delete'>Borrar</button>
+                  </div>
                 </li>
-                <button onClick={()=>removeTransaction(transaction.id)} aria-label={`Borrar ${transaction.description}`}>Borrar</button>
               </>
             ))}
           </ul>
