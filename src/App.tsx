@@ -4,7 +4,7 @@ import { calculateSummary } from './utils/summary'
 import { TransactionForm } from './components/TransactionForm';
 
 function App() {
-  const { transactions, isLoading, error } = useTransactions();
+  const { transactions, isLoading, error, addTransaction, removeTransaction } = useTransactions();
 
   if (isLoading) return <p>Cargando…</p>;
   if (error) return <p role="alert">Error: {error}</p>;
@@ -34,18 +34,21 @@ function App() {
             </article>
             </div>
         </section>
-         <TransactionForm onAddTransaction={(transaction) => console.log(transaction)} />
+         <TransactionForm onAddTransaction={addTransaction} />
         <section aria-labelledby="transactions-title">
           <h2 id='transactions-title'>Movimientos</h2>
           <ul className='transaction__list'>
             {transactions.map((transaction) => (
-              <li className='transaction' key={transaction.id}>
-                <div className='transaction__info'>
-                  <p className='transaction__description'>{transaction.description}</p>
-                  <p className='transaction__type'>{formatTransactionType(transaction.type)}</p>
-                </div>
-                <p className={`transaction__amount transaction__amount--${transaction.type}`}>{formatCurrency(transaction.amount)}</p>
-              </li>
+              <>
+                <li className='transaction' key={transaction.id}>
+                  <div className='transaction__info'>
+                    <p className='transaction__description'>{transaction.description}</p>
+                    <p className='transaction__type'>{formatTransactionType(transaction.type)}</p>
+                  </div>
+                  <p className={`transaction__amount transaction__amount--${transaction.type}`}>{formatCurrency(transaction.amount)}</p>
+                </li>
+                <button onClick={()=>removeTransaction(transaction.id)} aria-label={`Borrar ${transaction.description}`}>Borrar</button>
+              </>
             ))}
           </ul>
         </section>
