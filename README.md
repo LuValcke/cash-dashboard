@@ -1,75 +1,62 @@
-# React + TypeScript + Vite
+# Cash Dashboard
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A small cash-flow forecast dashboard built with React, TypeScript and Vite. It shows income, expenses and balance, and lets you add, delete and filter transactions.
 
-Currently, two official plugins are available:
+I built it to practise frontend fundamentals step by step: state management, typing, accessibility and layout.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+![Cash Dashboard screenshot](docs/screenshot.png)
 
-## React Compiler
+## Features
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- Summary cards with total income, expenses and balance
+- Transaction list loaded from a REST endpoint, with loading and error states
+- Form to add transactions, with validation
+- Delete transactions
+- Filter by type (all, income, expenses)
+- Currency formatting with `Intl.NumberFormat` (es-ES, EUR)
 
-## Expanding the ESLint configuration
+## Tech stack
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+React · TypeScript · Vite · CSS (custom properties, Grid, Flexbox, BEM)
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Technical decisions
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+- **Custom hook (`useTransactions`)** handles data fetching, loading and error states, and exposes `addTransaction` and `removeTransaction`. Components never see `dispatch`.
+- **`useReducer` with a discriminated union** for actions (`loaded`, `added`, `removed`), so each action has a typed payload.
+- **Derived state:** totals are calculated from the transactions on every render instead of being stored, so the list and the summary can't get out of sync.
+- **Pure functions** in `utils/` for formatting, summary calculation and form validation, which keeps components simple and makes them easy to test.
+- **Controlled form** that converts and validates values on submit.
+- **`useMemo`** for the filtered list. With this amount of data it isn't needed for performance; I used it to practise and to keep a stable result between renders.
+- **Accessibility:** semantic HTML, labelled sections, a `fieldset` for the filter, native radios hidden only visually so keyboard navigation still works, visible focus, descriptive `aria-label` on delete buttons, `role="alert"` on errors and AA colour contrast.
+- **Design tokens** as CSS custom properties for colours, spacing and shadows.
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## Getting started
 
+```bash
+npm install
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://npmx.dev/package/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://npmx.dev/package/eslint-plugin-react-dom) for React-specific lint rules:
+Then open http://localhost:5173.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## Project structure
 
 ```
+src/
+  components/   UI components (form, filters)
+  hooks/        useTransactions
+  state/        transactions reducer
+  types/        shared types
+  utils/        formatting, summary and validation
+public/api/     mock REST data (transactions.json)
+```
+
+## Known limitations
+
+- The API is mocked with a static JSON file, so new or deleted transactions are lost on reload.
+
+## Next steps
+
+- Monthly chart with Recharts
+- Unit and component tests with Vitest and Testing Library
+- Persist data (localStorage or a real API)
