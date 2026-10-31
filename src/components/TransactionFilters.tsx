@@ -13,20 +13,23 @@ const options: { value: TransactionFilter; label: string }[] = [
 
 export function TransactionFilters({ value, onChange }: TransactionFiltersProps) {
   return (
-    <fieldset>
-      <legend>Mostrar</legend>
-      {options.map((option) => (
-        <label key={option.value}>
-          <input
-            type="radio"
-            name="transaction-filter"
-            value={option.value}
-            checked={value === option.value}
-            onChange={() => onChange(option.value)}
-          />
-          {option.label}
-        </label>
-      ))}
+    <fieldset className='transaction-filters'>
+      <legend className='transaction-filters__legend'>Mostrar</legend>
+			<div className='transaction-filters__options'>
+				{options.map((option) => (
+					<label key={option.value} className='transaction-filters__option'>
+						<input
+							type="radio"
+							name="transaction-filter"
+							value={option.value}
+							checked={value === option.value}
+							onChange={() => onChange(option.value)}
+							className='transaction-filters__input'
+						/>
+						{option.label}
+					</label>
+				))}
+			</div>
     </fieldset>
   );
 }

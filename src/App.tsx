@@ -52,7 +52,7 @@ function App() {
           <h2 id='transactions-title'>Movimientos</h2>
           <TransactionFilters value={filter} onChange={setFilter} />
           {filteredTransactions.length === 0 ? (
-            <p>No hay movimientos.</p>
+            <p className='transaction__empty'>No hay movimientos.</p>
           ) : (<ul className='transaction__list'>
             {filteredTransactions.map((transaction) => (
               <li className='transaction' key={transaction.id}>
