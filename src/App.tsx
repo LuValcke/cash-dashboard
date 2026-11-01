@@ -58,8 +58,8 @@ function App() {
           <h2 id='transactions-title'>Movimientos</h2>
           <TransactionFilters value={filter} onChange={setFilter} />
           {filteredTransactions.length === 0 ? (
-            <p className='transaction__empty'>No hay movimientos.</p>
-          ) : (<ul className='transaction__list'>
+            <p className='card transaction__empty'>No hay movimientos.</p>
+          ) : (<ul className='card card--flush transaction__list'>
             {filteredTransactions.map((transaction) => (
               <li className='transaction' key={transaction.id}>
                 <div className='transaction__info'>

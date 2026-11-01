@@ -24,7 +24,7 @@ export function TransactionFilters({ value, onChange }: TransactionFiltersProps)
 							value={option.value}
 							checked={value === option.value}
 							onChange={() => onChange(option.value)}
-							className='transaction-filters__input'
+							className='transaction-filters__input visually-hidden'
 						/>
 						{option.label}
 					</label>

@@ -9,6 +9,7 @@
   --color-expense: #a0581f;
   --color-focus: #1d4ed8;
   --color-primary: #1d4ed8;
+  --color-error: #b91c1c;
 
   /* Espaciado */
   --space-xs: 0.25rem;
@@ -65,10 +66,6 @@ section {
   list-style: none;
   padding: 0;
   margin: 0;
-  background-color: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
 }
 
 .card {
@@ -77,6 +74,10 @@ section {
   border-radius: var(--radius);
   box-shadow: var(--shadow);
   padding: 1.25rem;
+}
+
+.card--flush {
+  padding: 0;
 }
 
 .card__title {
@@ -89,7 +90,7 @@ section {
 .card__value {
   font-size: 1.75rem;
   font-weight: 700;
-  margin: 0 0 var(--space-xs);
+  margin: var(--space-xs) 0 0;
   font-variant-numeric: tabular-nums;
 }
 
@@ -137,11 +138,6 @@ section {
 }
 
 .transaction-form {
-  background-color: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
-  padding: 1.25rem;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   gap: var(--space-md);
@@ -174,24 +170,16 @@ section {
 .transaction-form__button {
   background-color: var(--color-primary);
   color: whitesmoke;
+  font: inherit;
   font-weight: 600;
   border: none;
   border-radius: 8px;
   padding: 0.5rem 1rem;
   cursor: pointer;
-  font: inherit;
 }
 
 .transaction-form__button:hover {
   background-color: #1e40af;
-}
-
-.transaction-form__error {
-  color: var(--color-expense);
-  font-size: 0.875rem;
-  margin: 0;
-  display: grid;
-  grid-column: 1;
 }
 
 .transaction-form__actions {
@@ -199,7 +187,12 @@ section {
   display: flex;
   align-items: center;
   gap: var(--space-md);
-  font: inherit;
+}
+
+.transaction-form__error {
+  color: var(--color-error);
+  font-size: 0.875rem;
+  margin: 0;
 }
 
 .transaction__delete {
@@ -216,6 +209,7 @@ section {
 .transaction__delete:hover {
   color: var(--color-expense);
   border: 1px solid var(--color-border);
+  border-color: var(--color-expense);
 }
 
 .transaction__actions {
@@ -256,31 +250,20 @@ section {
 
 .transaction-filters__option:has(.transaction-filters__input:checked) { 
   background-color: var(--color-primary);
+  border-color: var(--color-primary);
   color: white;
 }
 
-.transaction-filters__input {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0 0 0 0);
-  white-space: nowrap;
-  border: 0;
-}
-
-.transaction-filters__input:has(.transaction-filters__input:focus-visible) {
+.transaction-filters__option:has(.transaction-filters__input:focus-visible) {
   outline: 3px solid var(--color-focus);
   outline-offset: 2px;
 }
 
+.transaction-filters__option:hover:not(:has(.transaction-filters__input:checked)) {
+  border-color: var(--color-primary);
+}
+
 .transaction__empty {
-  background-color: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
-  padding: var(--space-xl);
   color: var(--color-text-muted);
   text-align: center;
 }

@@ -10,7 +10,7 @@ interface MonthlyChartProps {
 export function MonthlyChart({ data }: MonthlyChartProps) {
 	return (
 		<>
-			<div aria-hidden='true'>
+			<div aria-hidden='true' className='card'>
 				<ResponsiveContainer width="100%" height={300}>
 					<BarChart data={data} barGap={4}>
 						<CartesianGrid strokeDasharray="3 3" vertical={false} />

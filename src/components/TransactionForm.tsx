@@ -39,7 +39,7 @@ export function TransactionForm({ onAddTransaction }: TransactionFormProps) {
 	};
 
 	return (
-		<form onSubmit={handleSubmit} className='transaction-form'>
+		<form onSubmit={handleSubmit} className='card transaction-form'>
 			<div className='transaction-form__field'>
 				<label htmlFor='descriptionText' className='transaction-form__label'> Descripción </label>
 				<input id='descriptionText' value={description} onChange={(e) => setDescription(e.target.value)} className='transaction-form__input'></input>
