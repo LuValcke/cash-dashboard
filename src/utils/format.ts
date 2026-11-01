@@ -14,3 +14,19 @@ const currencyFormatter = new Intl.NumberFormat('es-ES', { style: 'currency', cu
 export function formatCurrency(amount: number): string {
   return currencyFormatter.format(amount);
 }
+
+export function formatMonth(month: string): string {
+  const [year, monthNumber] = month.split('-');
+  const date = new Date(Number(year), Number(monthNumber) - 1, 1);
+  return new Intl.DateTimeFormat('es-ES', { month: 'short', year: 'numeric' }).format(date)
+}
+
+const compactCurrencyFormatter = new Intl.NumberFormat('es-ES', {
+  style: 'currency',
+  currency: 'EUR',
+  maximumFractionDigits: 0,
+});
+
+export function formatCurrencyCompact(amount: number): string {
+  return compactCurrencyFormatter.format(amount);
+}

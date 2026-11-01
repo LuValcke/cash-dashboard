@@ -5,6 +5,8 @@ import { calculateSummary } from './utils/summary'
 import { TransactionForm } from './components/TransactionForm';
 import type { TransactionFilter } from './types/transactions';
 import { TransactionFilters } from './components/TransactionFilters';
+import { groupByMonth } from './utils/groupByMonth';
+import { MonthlyChart } from './components/MonthlyChart';
 
 function App() {
   const { transactions, isLoading, error, addTransaction, removeTransaction } = useTransactions();
@@ -43,6 +45,10 @@ function App() {
               <p className='card__value'> {formatCurrency(balance)} </p>
             </article>
           </div>
+        </section>
+        <section aria-labelledby='transaction-graphic'>
+          <h2 id='transaction-graphic'>Evolución mensual</h2>
+          <MonthlyChart data={groupByMonth(transactions)} />
         </section>
         <section aria-labelledby='transaction-form'>
           <h2 id='transaction-form'>Nuevo movimiento</h2>
