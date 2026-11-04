@@ -10,7 +10,7 @@ export function useTransactions() {
   useEffect(() => {
     const loadTransactions = async () => {
       try {
-        const response = await fetch('/api/transactions.json');
+        const response = await fetch('/api/transactions');
         if (!response.ok) {
           throw new Error('Failed to fetch transactions');
         }
