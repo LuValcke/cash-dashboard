@@ -1,6 +1,6 @@
 export function validateTransactionInput(body: unknown): string | null {
   if (typeof body !== 'object' || body === null) {
-    return 'Petitions body must be an object';
+    return 'Request body must be an object';
   }
 
   const { description, amount, date, type } = body as Record<string, unknown>;
