@@ -1,7 +1,9 @@
 import express from 'express';
 import { transactions } from './data.js';
+import { validateTransactionInput } from './validateTransaction.js';
 
 const app = express();
+app.disable('x-powered-by');
 app.use(express.json());
 const PORT = 3001;
 
@@ -14,6 +16,12 @@ app.get('/transactions', (req, res) => {
 });
 
 app.post('/transactions', (req, res) => {
+
+    const error = validateTransactionInput(req.body);
+    if (error) {
+    return res.status(400).json({ error });
+    }
+
     const movement = req.body;
     const id = crypto.randomUUID();
     const newTransaction = {
