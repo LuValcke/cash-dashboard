@@ -12,7 +12,7 @@ export function MonthlyChart({ data }: MonthlyChartProps) {
 		<>
 			<div aria-hidden='true' className='card'>
 				<ResponsiveContainer width="100%" height={300}>
-					<BarChart data={data} barGap={4}>
+					<BarChart data={data} barGap={4} accessibilityLayer={false}>
 						<CartesianGrid strokeDasharray="3 3" vertical={false} />
 						<XAxis dataKey='month' tickFormatter={formatMonth} />
 						<YAxis tickFormatter={formatCurrencyCompact} />
