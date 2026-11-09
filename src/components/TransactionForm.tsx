@@ -1,9 +1,10 @@
 import { useState } from 'react';
-import type { TransactionType, Transaction } from '../types/transactions';
+import type { TransactionType } from '../types/transactions';
 import { validateTransaction } from '../utils/validateTransaction';
+import type { NewTransaction } from '../api/transactionsApi';
 
 interface TransactionFormProps {
-	onAddTransaction: (transaction: Transaction) => void;
+	onAddTransaction: (transaction: NewTransaction) => Promise<void>;
 }
 
 export function TransactionForm({ onAddTransaction }: TransactionFormProps) {
@@ -12,10 +13,11 @@ export function TransactionForm({ onAddTransaction }: TransactionFormProps) {
 	const [date, setDate] = useState<string>('');
 	const [type, setType] = useState<TransactionType>('expense');
 	const [error, setError] = useState<string>('');
+	const [isSubmitting, setIsSubmitting] = useState<boolean>();
 
 
 
-	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 
 		const validationError = validateTransaction({ description, amount, date });
@@ -25,21 +27,28 @@ export function TransactionForm({ onAddTransaction }: TransactionFormProps) {
 		}
 		setError('')
 
-		const newTransaction: Transaction = {
-			id: crypto.randomUUID(),
+		const newTransaction: NewTransaction = {
 			description: description.trim(),
 			amount: Number(amount),
 			date,
 			type,
 		};
-		onAddTransaction(newTransaction);
-		setDescription('')
-		setAmount('')
-		setDate('')
+
+		try {
+			await onAddTransaction(newTransaction);
+			setIsSubmitting(true);
+			setDescription('')
+			setAmount('')
+			setDate('')
+		} catch {
+			setError('No se pudo guardar el movimiento. Inténtalo de nuevo.');
+		} finally {
+			setIsSubmitting(false);
+		}
 	};
 
 	return (
-		<form onSubmit={handleSubmit} className='card transaction-form'>
+		<form onSubmit={handleSubmit} className='card transaction-form' onChange={() => setError('')}>
 			<div className='transaction-form__field'>
 				<label htmlFor='descriptionText' className='transaction-form__label'> Descripción </label>
 				<input id='descriptionText' value={description} onChange={(e) => setDescription(e.target.value)} className='transaction-form__input'></input>
@@ -65,7 +74,7 @@ export function TransactionForm({ onAddTransaction }: TransactionFormProps) {
 				</select>
 			</div>
 			<div className='transaction-form__actions'>
-				<button type='submit' className='transaction-form__button'>Añadir</button>
+				<button type='submit' className='transaction-form__button' disabled={isSubmitting}>{isSubmitting ? 'Guardando...' : 'Añadir'}</button>
 				{error && <p role='alert' className='transaction-form__error'>⚠️ {error}</p>}
 			</div>
 		</form>

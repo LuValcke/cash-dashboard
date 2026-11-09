@@ -23,10 +23,10 @@ export async function createTransaction(input: NewTransaction): Promise<Transact
 
 export async function deleteTransaction(id: string): Promise<void> {
 	const response = await fetch(`/api/transactions/${id}`, {
-        method: 'DELETE',
-    })
+		method: 'DELETE',
+	})
 
-	if(!response.ok) {
+	if (!response.ok) {
 		throw new Error('Failed to delete transaction')
 	}
 }

@@ -1,6 +1,7 @@
 import { useState, useEffect, useReducer } from 'react';
 import type { Transaction } from '../types/transactions';
 import { transactionsReducer } from '../state/transactionsReducer';
+import { createTransaction, deleteTransaction, type NewTransaction } from '../api/transactionsApi';
 
 export function useTransactions() {
   const [transactions, dispatch] = useReducer(transactionsReducer, []);
@@ -29,14 +30,16 @@ export function useTransactions() {
     loadTransactions();
   }, []);
 
-  const addTransaction = (transaction: Transaction) => {
+  const addTransaction = async (input: NewTransaction) => {
+    const newTransaction = await createTransaction(input);
     dispatch({
       type: 'added',
-      payload: transaction,
+      payload: newTransaction,
     })
   }
 
-  const removeTransaction = (id: string) => {
+  const removeTransaction = async (id: string) => {
+    await deleteTransaction(id);
     dispatch({
       type: 'removed',
       payload: id,
